@@ -56,10 +56,7 @@ public class Keranjang {
         int jumlahBarang = Integer.parseInt(s.nextLine());
         
         boolean barangSudahAda = false;
-
-        System.out.println(this.barang.size());
-        System.out.println(this.keranjang);
-
+        
         for(int i = 0 ;i<this.barang.size();i++){
             for(Barang item : this.keranjang){
                 if(kodebarang.equals(kodebarang)){
