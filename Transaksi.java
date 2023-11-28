@@ -15,6 +15,26 @@ public class Transaksi {
         System.out.println("2. Pembayaran melalui Bank");
         System.out.println("3. Pembayaran melalui COD");
 
-        
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Masukkan pilihan anda: ");
+        int metodePembayaran = scan.nextInt();
+
+        // proses pembayaran 
+        switch (metodePembayaran) {
+            case 1:
+                // pemanggilan method pembayaran dengan QRIS
+                break;
+            
+            case 2:
+                // pemanggilan method pembayaran dengan Bank
+                break;
+
+            case 3:
+                // pemanggilan method pembayaran dengan COD
+                break;
+
+            default:
+                break;
+        }
     }
 }
