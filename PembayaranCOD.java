@@ -7,7 +7,7 @@ public class PembayaranCOD extends Pembayaran {
         System.out.println("1. Barang telah diterima.");
         System.out.println("2. Muncul invoice.");
         // Output
-        System.out.println("Barang telah diterima. Invoice:");
+        System.out.println("Barang telah diterima");
         System.out.println("=====================================");
         System.out.println("Customer: " + getTransaksi().getAkun().getId());
         System.out.println("Barang yang dibeli:");
