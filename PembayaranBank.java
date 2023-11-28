@@ -25,7 +25,7 @@ public class PembayaranBank extends Pembayaran {
 
         if (inputNomorATM.equals(nomorATM) && inputPasswordATM.equals(passwordATM) && inputTotalHarga == totalHarga) {
             // Output
-            System.out.println("Pembayaran berhasil. Invoice:");
+            System.out.println("Pembayaran berhasil");
             System.out.println("=====================================");
             System.out.println("Customer: " + getTransaksi().getAkun().getId());
             System.out.println("Barang yang dibeli:");
