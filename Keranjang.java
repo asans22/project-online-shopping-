@@ -9,14 +9,17 @@ import java.util.Scanner;
 
 public class Keranjang {
     private ArrayList<Barang> barang;
-    public ArrayList<Barang> keranjang ;
+
+    private ArrayList<Barang> listKeranjang;
     private Scanner s = new Scanner(System.in);
 
     public Keranjang(){
         this.barang = new ArrayList<Barang>();
-        this.keranjang = new ArrayList<Barang>();
+ 
+        this.listKeranjang = new ArrayList<Barang>();
     }
-     private void bacaDatabase(){
+
+    private void bacaDatabase(){
         BufferedReader databaseBarang = null;
         String bacaDatabeseBarang;
         String pathDatabase = "List Barang.txt";
@@ -46,8 +49,144 @@ public class Keranjang {
             }
         }
     }
+
+    public void bacaDatabaseKeranjang(){
+    BufferedReader databaseKeranjang=null;
+    String bacaDatabaseKeranjang;
+    String pathReaderKeranjang = "Keranjang.txt";
+
+    try{
+        databaseKeranjang = new BufferedReader(new FileReader(pathReaderKeranjang));
+        while((bacaDatabaseKeranjang=databaseKeranjang.readLine())!= null){
+            Barang keranjang1 = new Barang();
+            String[] token = bacaDatabaseKeranjang.split(" ");
+            
+            keranjang1.setKodeBarang(token[0]);
+            keranjang1.setNamaBarang(token[1]);
+            keranjang1.setStok(Integer.parseInt(token[2]));
+            keranjang1.setHarga(Integer.parseInt(token[3]));
+
+        
+            this.listKeranjang.add(keranjang1);
+            
+        }
+    }catch(IOException e){
+        System.out.println(e);
+    }finally{
+        try{
+            if(databaseKeranjang != null){
+                databaseKeranjang.close();
+            }
+    
+        } catch(IOException e){
+            System.out.println(e);
+        }
+       
+        
+    }
+  }
+  public void lihatKeranjang(){
+   this.bacaDatabaseKeranjang();
+    System.out.println("data keranjang anda : ");
+    listKeranjang.forEach((keranjang1)->{
+    System.out.println("kode barang : " + keranjang1.getKodeBarang());
+    System.out.println("nama barang : " + keranjang1.getNamaBarang());
+    System.out.println("stok : " + keranjang1.getStok());
+    System.out.println("harga : " + keranjang1.getHarga());
+    System.out.println(" ");
+   });
+
+   System.out.println("Jumlah barang dalam keranjang: " + listKeranjang.size());
+
+   Scanner scan = new Scanner(System.in);
+   System.out.println("Pilihan:");
+   System.out.println("1. Hapus barang dari keranjang");
+   System.out.println("2. Kurangi jumlah barang di keranjang");
+   System.out.println("Masukkan pilihan anda");
+   int pilihan = scan.nextInt();
+
+   switch(pilihan) {
+    case 1:
+        hapusBarangDiKeranjang();
+        break;
+    
+    case 2:
+        kurangiJumlahBarang();
+        break;
+
+    default:
+    System.out.println("Pilihan tidak valid, silahkan masukkan pilihan baru: ");
+    lihatKeranjang();
+   }
+ 
+    this.listKeranjang.clear();
+  }
+
+//   public void hapusBarangDiKeranjang() {
+//     this.bacaDatabase();
+//     Scanner s = new Scanner(System.in);
+//     String kodeBarang;
+//     System.out.println("===  HAPUS BARANG ===");
+//     System.out.print("masukkan kode barang : ");
+//     kodeBarang = s.nextLine();
+
+//     for(int i = 0 ; i<this.barang.size();i++){
+//         if(kodeBarang.equals(this.barang.get(i).getKodeBarang())){
+//             this.barang.remove(i);
+//         }
+//     }
+//     this.writeDatabasekeranjang();
+//     this.barang.clear();
+//   }
+
+//   public void kurangiJumlahBarang() {
+//     this.bacaDatabase();
+//     BufferedReader bacaDatabase = null;
+//     Scanner s = new Scanner(System.in);
+//     Barang barangEdit = new Barang();
+//     String kodeBarang;
+//     System.out.println("===  EDIT BARANG  ===");
+//     System.out.print("masukkan kode barang : ");
+//     kodeBarang = s.nextLine();
+
+//     try {
+        
+//         for(int i=0 ; i<this.barang.size();i++){
+//             if(kodeBarang.equals(this.barang.get(i).getKodeBarang())){
+//                 System.out.println("edit barang" + this.barang.get(i).getNamaBarang());
+//                 System.out.print("masukkan jumlah yang ingin dikurangi : ");
+//                 String newStok = s.nextLine();
+
+//                 barangEdit.setKodeBarang(kodeBarang);
+//                 barangEdit.setNamaBarang(this.barang.get(i).getNamaBarang());
+//                 barangEdit.setStok(Integer.parseInt(newStok));
+
+//                 this.barang.set(i, barangEdit);
+
+//             }
+//         }
+//         this.writeDatabasekeranjang();
+//         this.barang.clear();
+//     } catch (Exception e) {
+//         // TODO: handle exception
+//         System.out.println(e);
+//     }finally{
+//         if(bacaDatabase != null){
+//             try {
+//                 bacaDatabase.close();
+//             } catch (IOException e) {
+                
+//                 System.out.println((e));
+//             }
+//         }
+    
+//     }
+
+//   }
+
     public void tambahBarangKeKeranjang(){
         this.bacaDatabase();
+        this.bacaDatabaseKeranjang();
         
         System.out.println("===== masukkan barang ke keranjang =====");
         System.out.print("kode barang : ");
@@ -55,47 +194,35 @@ public class Keranjang {
         System.out.print("jumlah barang : ");
         int jumlahBarang = Integer.parseInt(s.nextLine());
         
-        boolean barangSudahAda = false;
-        
         for(int i = 0 ;i<this.barang.size();i++){
-            for(Barang item : this.keranjang){
-                if(kodebarang.equals(kodebarang)){
-                    item.setStok(item.getStok()+jumlahBarang);
-                    barangSudahAda = true;
-                    System.out.println(jumlahBarang + " " + kodebarang + " telah di tambahkan ke dalam database keranjang belanja.");
-                    break;
-                } else {
-                    System.out.println("Stok tidak mencukupi untuk " + kodebarang + " Stok yang tersedia: " + item.getStok());
-                }
+            if(kodebarang.equals(this.barang.get(i).getKodeBarang())){
+                Barang newBarangKeranjang  =  new Barang();
+                newBarangKeranjang.setKodeBarang(barang.get(i).getKodeBarang());
+                newBarangKeranjang.setNamaBarang(barang.get(i).getNamaBarang());
+                newBarangKeranjang.setStok(jumlahBarang);
+                newBarangKeranjang.setHarga(barang.get(i).getHarga());
 
-                if(!barangSudahAda){
-                    for(Barang barangDatabase : this.barang){
-                        if(kodebarang.equals(barangDatabase.getKodeBarang())){
-                            Barang barangBaruKeranjang = new Barang();
-                            barangBaruKeranjang.setKodeBarang(kodebarang);
-                            barangBaruKeranjang.setNamaBarang(this.barang.get(i).getNamaBarang());
-                            barangBaruKeranjang.setStok(jumlahBarang);
-                            barangBaruKeranjang.setHarga(this.barang.get(i).getHarga());
-                            this.keranjang.add(barangBaruKeranjang);
-                            tambahBarangKeDatabaseKeranjang();
-                           
-                        }
-                    }
-                }
-                tambahBarangKeDatabaseKeranjang();
+                System.out.println("Barang " + kodebarang + " berhasil ditambahkan ke dalam keranjang.");
+                
+                this.listKeranjang.add(newBarangKeranjang);
+                this.writeDatabasekeranjang(); 
+                break;
+                
             }
         }
         
+        this.listKeranjang.clear();
 
 
     }
-    public  void tambahBarangKeDatabaseKeranjang(){
+    public void writeDatabasekeranjang(){
+        this.bacaDatabaseKeranjang();
         BufferedWriter dataBaseKeranjang = null ;
         String pathDatabaseKeranjang = "Keranjang.txt";
 
         try{
             dataBaseKeranjang = new BufferedWriter(new FileWriter(pathDatabaseKeranjang));
-            for(Barang keranjang1 :this.keranjang){
+            for(Barang keranjang1 :this.listKeranjang){
                 String line = String.format("%s %s %d %d",
                 keranjang1.getKodeBarang(),
                 keranjang1.getNamaBarang(),
@@ -104,6 +231,7 @@ public class Keranjang {
 
                 dataBaseKeranjang.write(line);
                 dataBaseKeranjang.newLine();
+
                 
             }
         }catch(IOException e){
@@ -117,51 +245,7 @@ public class Keranjang {
                 System.out.println(e);
             }
         }
-  }
-  public void bacaDatabaseKeranjang(){
-    BufferedReader databaseKeranjang=null;
-    String bacaDatabaseKeranjang;
-    String pathReaderKeranjang = "Keranjang.txt";
-    this.keranjang.clear();
-    try{
-        databaseKeranjang = new BufferedReader(new FileReader(pathReaderKeranjang));
-        while((bacaDatabaseKeranjang=databaseKeranjang.readLine())!= null){
-            Barang keranjang1 = new Barang();
-            String[] token = bacaDatabaseKeranjang.split(" ");
-            
-            keranjang1.setKodeBarang(token[0]);
-            keranjang1.setNamaBarang(token[1]);
-            keranjang1.setHarga(Integer.parseInt(token[2]));
-            keranjang1.setHarga(Integer.parseInt(token[3]));
-
-            this.keranjang.add(keranjang1);
-        }
-    }catch(IOException e){
-        System.out.println(e);
-    }finally{
-        try{
-            if(databaseKeranjang != null){
-                databaseKeranjang.close();
-            }
-    
-        }catch(IOException e){
-            System.out.println(e);
-        }
-        // this.keranjang.clear();
-        
     }
-  }
-  public void lihatKeranjang(){
-   this.bacaDatabaseKeranjang();
-    System.out.println("data keranjang anda : ");
-   barang.forEach((keranjang1)->{
-    System.out.println("kode barang : " + keranjang1.getKodeBarang());
-    System.out.println("nama barang : " + keranjang1.getNamaBarang());
-    System.out.println("stok : " + keranjang1.getStok());
-    System.out.println("harga : " + keranjang1.getHarga());
-    System.out.println(" ");
-   });
 
-   this.keranjang.clear();
-  }
+    
 }
