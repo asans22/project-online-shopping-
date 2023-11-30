@@ -1,6 +1,6 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
+// import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,12 +9,14 @@ import java.util.Scanner;
 
 public class Keranjang {
     private ArrayList<Barang> barang;
-    public ArrayList<Barang> keranjang ;
+
+    private ArrayList<Barang> listKeranjang;
     private Scanner s = new Scanner(System.in);
 
     public Keranjang(){
         this.barang = new ArrayList<Barang>();
-        this.keranjang = new ArrayList<Barang>();
+ 
+        this.listKeranjang = new ArrayList<Barang>();
     }
      private void bacaDatabase(){
         BufferedReader databaseBarang = null;
@@ -46,95 +48,7 @@ public class Keranjang {
             }
         }
     }
-
-    public void tambahBarangKeKeranjang(){
-        this.bacaDatabase();
-        
-        System.out.println("===== masukkan barang ke keranjang =====");
-        System.out.print("kode barang : ");
-        String kodebarang = s.nextLine();
-        System.out.print("jumlah barang : ");
-        int jumlahBarang = Integer.parseInt(s.nextLine());
-        
-        // boolean barangSudahAda = false;
-
-        for(int i = 0 ;i<this.barang.size();i++){
-            // for(Barang item : this.keranjang){
-        //         if(kodebarang.equals(kodebarang)){
-        //             item.setStok(item.getStok()+jumlahBarang);
-        //             barangSudahAda = true;
-        //             break;
-        //         }
-        //         if(!barangSudahAda){
-        //             for(Barang barangDatabase : this.barang){
-        //                 if(kodebarang.equals(barangDatabase.getKodeBarang())){
-        //                     Barang barangBaruKeranjang = new Barang();
-        //                     barangBaruKeranjang.setKodeBarang(kodebarang);
-        //                     barangBaruKeranjang.setNamaBarang(this.barang.get(i).getNamaBarang());
-        //                     barangBaruKeranjang.setStok(jumlahBarang);
-        //                     barangBaruKeranjang.setHarga(this.barang.get(i).getHarga());
-        //                     this.keranjang.add(barangBaruKeranjang);
-        //                     tambahBarangKeDatabaseKeranjang();
-                           
-        //                 }
-        //             }
-        //         }
-        //          tambahBarangKeDatabaseKeranjang();
-        //     }
-            
-            if(kodebarang.equals(this.barang.get(i).getKodeBarang())){
-                Barang newBarangKeranjang  =  new Barang();
-                newBarangKeranjang.setKodeBarang(barang.get(i).getKodeBarang());
-                newBarangKeranjang.setNamaBarang(barang.get(i).getNamaBarang());
-                newBarangKeranjang.setStok(jumlahBarang);
-                newBarangKeranjang.setHarga(barang.get(i).getHarga());
-                
-                this.keranjang.add(newBarangKeranjang);
-                this.tambahBarangKeDatabaseKeranjang(); 
-                break;
-                // System.out.println(newBarangKeranjang.getKodeBarang());
-                // System.out.println(newBarangKeranjang.getNamaBarang());
-                // System.out.println(newBarangKeranjang.getStok());
-                // System.out.println(newBarangKeranjang.getHarga());
-                
-                
-
-            }
-        }
-        
-
-
-    }
-    public  void tambahBarangKeDatabaseKeranjang(){
-        BufferedWriter dataBaseKeranjang = null ;
-        String pathDatabaseKeranjang = "Keranjang.txt";
-
-        try{
-            dataBaseKeranjang = new BufferedWriter(new FileWriter(pathDatabaseKeranjang));
-            for(Barang keranjang1 :this.keranjang){
-                String line = String.format("%s %s %d %d",
-                keranjang1.getKodeBarang(),
-                keranjang1.getNamaBarang(),
-                keranjang1.getStok(),
-                keranjang1.getHarga());
-
-                dataBaseKeranjang.write(line);
-                dataBaseKeranjang.newLine();
-                
-            }
-        }catch(IOException e){
-            System.out.println(e);
-        }finally{
-            try{
-                if(dataBaseKeranjang != null){
-                    dataBaseKeranjang.close();
-                }
-            }catch(IOException e){
-                System.out.println(e);
-            }
-        }
-  }
-  public void bacaDatabaseKeranjang(){
+    public void bacaDatabaseKeranjang(){
     BufferedReader databaseKeranjang=null;
     String bacaDatabaseKeranjang;
     String pathReaderKeranjang = "Keranjang.txt";
@@ -150,7 +64,9 @@ public class Keranjang {
             keranjang1.setStok(Integer.parseInt(token[2]));
             keranjang1.setHarga(Integer.parseInt(token[3]));
 
-            this.keranjang.add(keranjang1);
+        
+            this.listKeranjang.add(keranjang1);
+            
         }
     }catch(IOException e){
         System.out.println(e);
@@ -170,7 +86,7 @@ public class Keranjang {
   public void lihatKeranjang(){
    this.bacaDatabaseKeranjang();
     System.out.println("data keranjang anda : ");
-   keranjang.forEach((keranjang1)->{
+    listKeranjang.forEach((keranjang1)->{
     System.out.println("kode barang : " + keranjang1.getKodeBarang());
     System.out.println("nama barang : " + keranjang1.getNamaBarang());
     System.out.println("stok : " + keranjang1.getStok());
@@ -178,7 +94,73 @@ public class Keranjang {
     System.out.println(" ");
    });
 
-//    this.keranjang.clear();
+
+    System.out.println("Jumlah barang dalam keranjang: " + listKeranjang.size()); 
+    this.listKeranjang.clear();
   }
+
+    public void tambahBarangKeKeranjang(){
+        this.bacaDatabase();
+        this.bacaDatabaseKeranjang();
+        
+        System.out.println("===== masukkan barang ke keranjang =====");
+        System.out.print("kode barang : ");
+        String kodebarang = s.nextLine();
+        System.out.print("jumlah barang : ");
+        int jumlahBarang = Integer.parseInt(s.nextLine());
+        
+        for(int i = 0 ;i<this.barang.size();i++){
+            if(kodebarang.equals(this.barang.get(i).getKodeBarang())){
+                Barang newBarangKeranjang  =  new Barang();
+                newBarangKeranjang.setKodeBarang(barang.get(i).getKodeBarang());
+                newBarangKeranjang.setNamaBarang(barang.get(i).getNamaBarang());
+                newBarangKeranjang.setStok(jumlahBarang);
+                newBarangKeranjang.setHarga(barang.get(i).getHarga());
+                
+                this.listKeranjang.add(newBarangKeranjang);
+                this.writeDatabasekeranjang(); 
+                break;
+                
+            }
+        }
+        
+        this.listKeranjang.clear();
+
+
+    }
+    public  void writeDatabasekeranjang(){
+        
+        BufferedWriter dataBaseKeranjang = null ;
+        String pathDatabaseKeranjang = "Keranjang.txt";
+
+        try{
+            dataBaseKeranjang = new BufferedWriter(new FileWriter(pathDatabaseKeranjang));
+            for(Barang keranjang1 :this.listKeranjang){
+                String line = String.format("%s %s %d %d",
+                keranjang1.getKodeBarang(),
+                keranjang1.getNamaBarang(),
+                keranjang1.getStok(),
+                keranjang1.getHarga());
+
+                dataBaseKeranjang.write(line);
+                dataBaseKeranjang.newLine();
+                
+
+                
+            }
+        }catch(IOException e){
+            System.out.println(e);
+        }finally{
+            try{
+                if(dataBaseKeranjang != null){
+                    dataBaseKeranjang.close();
+                }
+            }catch(IOException e){
+                System.out.println(e);
+            }
+        }
+        this.listKeranjang.clear();
+  }
+  
     
 }
