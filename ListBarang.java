@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ListBarang {
-    // class untuk melihat daftar barang yang ada
-    private ArrayList<Barang> list;
+    // class untuk melihat daftar barang1 yang ada
+    private ArrayList<Barang> barang;
 
     public ListBarang(){
-        this.list = new ArrayList<Barang>();
+        this.barang = new ArrayList<Barang>();
     }
 
     //method baca database
@@ -24,15 +24,15 @@ public class ListBarang {
         try{
             databaseBarang = new BufferedReader(new FileReader(pathDatabase));
             while((bacaDatabeseBarang=databaseBarang.readLine())!= null){
-                Barang barang = new Barang();
+                Barang barang1 = new Barang();
                 String[] token = bacaDatabeseBarang.split(" ");
 
-                barang.setKodeBarang(token[0]);
-                barang.setNamaBarang(token[1]);
-                barang.setStok(Integer.parseInt(token[2]));
-                barang.setHarga(Integer.parseInt(token[3]));
+                barang1.setKodeBarang(token[0]);
+                barang1.setNamaBarang(token[1]);
+                barang1.setStok(Integer.parseInt(token[2]));
+                barang1.setHarga(Integer.parseInt(token[3]));
 
-                this.list.add(barang);
+                this.barang.add(barang1);
 
             }
         }catch(IOException e){
@@ -50,16 +50,16 @@ public class ListBarang {
     public void tampilkanListBarang(){
         this.bacaDatabase();
 
-        list.forEach((barang)->{
-            System.out.println("kode barang : " +barang.getKodeBarang());
-            System.out.println("nama barang : " +barang.getNamaBarang());
-            System.out.println("stok barang : " +barang.getStok());
-            System.out.println("harga barang : " +barang.getHarga());
+        barang.forEach((barang1)->{
+            System.out.println("kode barang : " +barang1.getKodeBarang());
+            System.out.println("nama barang : " +barang1.getNamaBarang());
+            System.out.println("stok barang : " +barang1.getStok());
+            System.out.println("harga barang : " +barang1.getHarga());
             System.out.println(" ");
         });
 
         
-        this.list.clear();
+        this.barang.clear();
 
     }
 
@@ -87,7 +87,7 @@ public class ListBarang {
         newBarang.setStok(stok);
         newBarang.setHarga(harga);
 
-        this.list.add(newBarang);
+        this.barang.add(newBarang);
         this.writeDatabase();
 
 
@@ -99,12 +99,12 @@ public class ListBarang {
 
         try{
             databaseBarang = new BufferedWriter(new FileWriter(pathDatabase));
-            for(Barang barang : this.list){
+            for(Barang barang1 : this.barang){
                 String line = String.format("%s %s %d %d",
-                barang.getKodeBarang(),
-                barang.getNamaBarang(),
-                barang.getStok(),
-                barang.getHarga());
+                barang1.getKodeBarang(),
+                barang1.getNamaBarang(),
+                barang1.getStok(),
+                barang1.getHarga());
 
                 databaseBarang.write(line);
                 databaseBarang.newLine();
@@ -133,25 +133,25 @@ public class ListBarang {
 
         try {
             
-            for(int i=0 ; i<this.list.size();i++){
-                if(kodeBarang.equals(this.list.get(i).getKodeBarang())){
-                    System.out.println("edit barang" + this.list.get(i).getNamaBarang());
+            for(int i=0 ; i<this.barang.size();i++){
+                if(kodeBarang.equals(this.barang.get(i).getKodeBarang())){
+                    System.out.println("edit barang " + this.barang.get(i).getNamaBarang());
                     System.out.print("masukkan stok : ");
                     String newStok = s.nextLine();
                     System.out.print("masukkan harga : ");
                     String newHarga = s.nextLine();
 
                     barangEdit.setKodeBarang(kodeBarang);
-                    barangEdit.setNamaBarang(this.list.get(i).getNamaBarang());
+                    barangEdit.setNamaBarang(this.barang.get(i).getNamaBarang());
                     barangEdit.setStok(Integer.parseInt(newStok));
                     barangEdit.setHarga(Integer.parseInt(newHarga));
 
-                    this.list.set(i, barangEdit);
+                    this.barang.set(i, barangEdit);
 
                 }
             }
             this.writeDatabase();
-            this.list.clear();
+            this.barang.clear();
         } catch (Exception e) {
             // TODO: handle exception
             System.out.println(e);
@@ -178,13 +178,13 @@ public class ListBarang {
         System.out.print("masukkan kode barang : ");
         kodeBarang = s.nextLine();
 
-        for(int i = 0 ; i<this.list.size();i++){
-            if(kodeBarang.equals(this.list.get(i).getKodeBarang())){
-                this.list.remove(i);
+        for(int i = 0 ; i<this.barang.size();i++){
+            if(kodeBarang.equals(this.barang.get(i).getKodeBarang())){
+                this.barang.remove(i);
             }
         }
         this.writeDatabase();
-        this.list.clear();
+        this.barang.clear();
 
     }
     

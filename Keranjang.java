@@ -161,6 +161,74 @@ public class Keranjang {
         }
         this.listKeranjang.clear();
   }
-  
+  public void editBarangKeranjang(){
+    this.bacaDatabaseKeranjang();
+    BufferedWriter editkeranjang = null ;
+    Barang editBarang = new Barang();
+    String kodeBarang ;
+    System.out.println("===== EDIT BARANG DIKERANJANG ======");
+    System.out.print("kode barang: ");
+    kodeBarang = s.nextLine();
     
+    try {
+        for(int i=0;i<this.listKeranjang.size();i++){
+            if(kodeBarang.equals(this.listKeranjang.get(i).getKodeBarang())){
+                System.out.println("edit barang "+this.listKeranjang.get(i).getNamaBarang() +" di keranjang");
+                System.out.print("masukkan jumlah terbaru : ");
+                String newJumlah = s.nextLine();
+
+                editBarang.setKodeBarang(kodeBarang);
+                editBarang.setNamaBarang(this.listKeranjang.get(i).getNamaBarang());
+                editBarang.setStok(Integer.parseInt(newJumlah));
+                editBarang.setHarga(this.listKeranjang.get(i).getHarga());
+
+                this.listKeranjang.set(i,editBarang);
+
+            }
+        }
+        this.writeDatabasekeranjang();
+        this.listKeranjang.clear();
+    } catch (Exception e) {
+        // TODO: handle exception
+        System.out.println(e);
+    }finally{
+        if(editkeranjang != null){
+            try {
+                editkeranjang.close();
+            } catch (IOException e) {
+                // TODO: handle exception
+                System.out.println(e);
+            }
+        }
+    }
+  }
+
+
+  public void hapusBarangDariKeranjang() {
+    this.bacaDatabaseKeranjang();
+    
+    System.out.print("Masukkan kode barang yang ingin dihapus dari keranjang: ");
+    String kodeBarang = s.nextLine();
+
+    boolean found = false;
+
+    // Iterasi melalui listKeranjang dan hapus barang jika kodeBarang sesuai
+    for (int i = 0; i < this.listKeranjang.size(); i++) {
+        if (kodeBarang.equals(this.listKeranjang.get(i).getKodeBarang())) {
+            this.listKeranjang.remove(i);
+            found = true;
+            break;
+        }
+    }
+
+    if (found) {
+        System.out.println("Barang berhasil dihapus dari keranjang.");
+        this.writeDatabasekeranjang(); // Menulis ulang database setelah menghapus barang
+    } else {
+        System.out.println("Barang dengan kode " + kodeBarang + " tidak ditemukan dalam keranjang.");
+    }
+
+    this.listKeranjang.clear();
+}
+  
 }
