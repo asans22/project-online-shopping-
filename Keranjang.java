@@ -230,5 +230,20 @@ public class Keranjang {
 
     this.listKeranjang.clear();
 }
+
+public int totalHarga() {
+    this.bacaDatabaseKeranjang();
+    
+    int jumlahHarga = 0; // Inisialisasi jumlahHarga menjadi 0
+
+    for (int i = 0; i < this.listKeranjang.size(); i++) {
+        int jumlahStok = this.listKeranjang.get(i).getStok(); // Inisialisasi jumlahStok di dalam loop
+        int harga = this.listKeranjang.get(i).getHarga(); // Inisialisasi harga di dalam loop
+        jumlahHarga += jumlahStok * harga; // Akumulasi total harga
+    }
+
+    return jumlahHarga;
+}
+
   
 }
