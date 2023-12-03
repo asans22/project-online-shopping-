@@ -1,0 +1,32 @@
+pilihan admin
+1.penambahan barang(jumlah barang ada +barang yang ditambahkan)
+2.hapus barang
+3.edit barang(mengubah harga  barang)
+4.melihat teransaksi
+5.melihat list barang 
+6 logout
+
+note:
+menambahkan/menghapus/mengedit
+nama barang/kode: ~
+
+pilihan pengguna
+1.melihat list barang
+2.memasukkan barang ke keranjang
+3.checkout(langsung semua barang yang dikeranjang)
+4.metode pembayaran
+{ketika bank (penjeasan pembayaran bank)1.jika sudah melakukan transaksi
+== muncul invoice},{ketika cod(penjelasan mengenai cod)1. barang telah diterima)== muncul invoice}
+%5%.admin menerima invoice dari pembeli
+6.customer ada atribut invoice yang telah selesai 
+7.logout
+
+butuh file txt
+1.list barang 
+2.invoice admin 
+3.invoice pelanggan
+
+
+kendala
+1.mesti belajar lagi cara menulis dan cara membacanya
+2. bagaimana cara untuk mengedit 

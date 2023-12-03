@@ -1,0 +1,18 @@
+id transaksi : 20231203220425_0
+total harga : 154000
+
+Kode Barang: 102
+Nama Barang: celana
+Jumlah: 7
+Harga: 9000
+
+Kode Barang: 103
+Nama Barang: topi
+Jumlah: 8
+Harga: 7000
+
+Kode Barang: 104
+Nama Barang: cincin
+Jumlah: 7
+Harga: 5000
+
