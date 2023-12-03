@@ -1,0 +1,2 @@
+100 aqua_galon 25 26000
+101 cangkir_plastik 20 2500
