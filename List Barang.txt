@@ -1,2 +1,5 @@
-100 aqua_galon 25 26000
-101 cangkir_plastik 20 2500
+101 baju 17 20000
+102 celana 13 9000
+103 topi 4 7000
+104 cincin 8 5000
+
